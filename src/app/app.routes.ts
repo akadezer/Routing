@@ -5,7 +5,6 @@ import {
   resolveUserName,
   UserTasksComponent,
 } from './users/user-tasks/user-tasks.component';
-import { routes as userRoutes } from './users/users.route';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { inject } from '@angular/core';
 
@@ -27,7 +26,7 @@ export const routes: Routes = [
   {
     path: 'users/:userId',
     component: UserTasksComponent,
-    children: userRoutes,
+    loadChildren: () => import('./users/users.route').then((mod) => mod.routes),
     canMatch: [],
     resolve: {
       userName: resolveUserName,
