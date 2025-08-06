@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { UsersService } from '../users.service';
 import {
   ActivatedRouteSnapshot,
@@ -17,6 +17,14 @@ import {
 })
 export class UserTasksComponent {
   userName = input.required<string>();
+  // private activatedRoute = inject(ActivatedRoute);
+  // ngOnInit(): void {
+  //   this.activatedRoute.data.subscribe({
+  //     next: (data) => {
+  //       console.log(data);
+  //     },
+  //   });
+  // }
 }
 
 export const resolveUserName: ResolveFn<string> = (
@@ -29,4 +37,11 @@ export const resolveUserName: ResolveFn<string> = (
       (u) => u.id === activatedRoute.paramMap.get('userId')
     )?.name || '';
   return userName;
+};
+
+export const resolveTitle: ResolveFn<string> = (
+  activatedRoute: ActivatedRouteSnapshot,
+  routerState: RouterStateSnapshot
+) => {
+  return resolveUserName(activatedRoute, routerState) + "'s Tasks";
 };
